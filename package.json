@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist && tsc",
-  "ts.check": "tsc --project tsconfig.json",
-  "add-build": "git add dist",
+    "ts.check": "tsc --project tsconfig.json",
+    "add-build": "git add dist",
     "tsc": "tsc",
     "execute": "nodemon ./dist/index.js",
     "start": "node ./dist/index.js"
@@ -16,7 +16,7 @@
     "ts.check",
     "build",
     "add-build"
-],
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -30,6 +30,8 @@
     "nodemon": "^3.0.2"
   },
   "devDependencies": {
+    "pre-commit": "^1.2.2",
+    "rimraf": "^5.0.5",
     "typescript": "^5.3.3"
   }
 }
