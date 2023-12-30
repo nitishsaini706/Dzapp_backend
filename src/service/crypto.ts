@@ -13,6 +13,12 @@ interface Object {
 interface List {
     list:[Object]
 }
+
+interface Item {
+    [key: string]: {
+      [nestedKey: string]: number;
+    };
+  }
 export const getList = async () =>{
     try{
         const response:any = await axios.get(url+"coins/list");
@@ -24,16 +30,17 @@ export const getList = async () =>{
     }
 }
 
-export const convert = async(input:{currency:string,crypto:string})=>{
+export const convert = async(input:{currency:string,crypto:string,amount:string})=>{
     try{
-        const {currency,crypto} = input;
-        const response:any= await axios.get(url+`simple/price?ids=${input.crypto}&vs_currencies=${input.currency}`);
+        const {currency,crypto,amount} = input;
+        const res = await axios.get(url+`simple/price?ids=${crypto}&vs_currencies=${currency}`);
+        const response:Item = res.data;
+        
+        const data:number =  response[crypto][currency];
 
-        const result = response.data.filter((item:any)=>{
-            return item.id === crypto ;
-        })
+        const result = Math.round(data * parseInt(amount));
 
-        return result.current_price;
+        return result;
 
     }catch(err){
         console.log("Error while getting currency for crypto service",err);

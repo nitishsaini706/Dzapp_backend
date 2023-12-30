@@ -31,12 +31,12 @@ const getList = () => __awaiter(void 0, void 0, void 0, function* () {
 exports.getList = getList;
 const convert = (input) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { currency, crypto } = input;
-        const response = yield axios_1.default.get(url + `simple/price?ids=${input.crypto}&vs_currencies=${input.currency}`);
-        const result = response.data.filter((item) => {
-            return item.id === crypto;
-        });
-        return result.current_price;
+        const { currency, crypto, amount } = input;
+        const res = yield axios_1.default.get(url + `simple/price?ids=${crypto}&vs_currencies=${currency}`);
+        const response = res.data;
+        const data = response[crypto][currency];
+        const result = Math.round(data * parseInt(amount));
+        return result;
     }
     catch (err) {
         console.log("Error while getting currency for crypto service", err);
