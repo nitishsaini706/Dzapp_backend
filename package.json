@@ -5,11 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf dist && tsc",
+  "ts.check": "tsc --project tsconfig.json",
+  "add-build": "git add dist",
     "tsc": "tsc",
-    "build": "tsc",
     "execute": "nodemon ./dist/index.js",
     "start": "node ./dist/index.js"
   },
+  "pre-commit": [
+    "ts.check",
+    "build",
+    "add-build"
+],
   "keywords": [],
   "author": "",
   "license": "ISC",
