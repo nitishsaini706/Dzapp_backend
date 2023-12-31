@@ -33,11 +33,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.currenyList = void 0;
+const redis_1 = require("../utils/redis");
 const currency_1 = require("../service/currency");
 const response = __importStar(require("../utils/responseHandler"));
 const currenyList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        if (redis_1.client.get('currencylist')) {
+            let list = JSON.parse(redis_1.client.get("currencylist"));
+            return response.handleSuccess(res, list, "Data fetched from Redis");
+        }
         const list = yield (0, currency_1.getList)();
+        yield redis_1.client.add('currencylist', list);
         return response.handleSuccess(res, list, "Data fetched successfully");
     }
     catch (err) {
