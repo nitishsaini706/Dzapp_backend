@@ -13,7 +13,7 @@ exports.handleSuccess = handleSuccess;
 function handleError(res, error) {
     const response = {
         success: false,
-        message: error || "Aborting Request",
+        message: error.message || "Aborting Request",
     };
     res.status(500).json(response);
 }

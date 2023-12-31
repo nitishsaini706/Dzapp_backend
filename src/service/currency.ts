@@ -10,7 +10,7 @@ export const getList = async () =>{
         const data:any = response.data;
         return data;
     }catch(err){
-        console.log("service for current list",err);
+        console.log("service for current list"+err);
         throw err;
     }
 }

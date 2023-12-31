@@ -25,25 +25,30 @@ export const getList = async () =>{
         const data:List = response.data;
         return data;
     }catch(err){
-        console.log("service for current list",err);
+        console.log("service for current list"+err);
         throw err;
     }
 }
 
 export const convert = async(input:{currency:string,crypto:string,amount:string})=>{
     try{
-        const {currency,crypto,amount} = input;
+        const {crypto,amount} = input;
+        const currency = input.currency.toLowerCase();
         const res = await axios.get(url+`simple/price?ids=${crypto}&vs_currencies=${currency}`);
-        const response:Item = res.data;
         
-        const data:number =  response[crypto][currency];
+        if(Object.keys(res.data).length > 0){
 
-        const result = Math.round(data * parseInt(amount));
-
-        return result;
+            const response:Item = res?.data;
+            const data:number =  response[crypto][currency];    
+            const result = Math.round(data * parseInt(amount));
+    
+            return result;
+        }else{
+            return "No Data Found"
+        }
 
     }catch(err){
-        console.log("Error while getting currency for crypto service",err);
+        console.log("Error while getting currency for crypto service"+err);
         throw err;
     }
 }

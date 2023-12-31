@@ -9,7 +9,7 @@ export const cryptoList = async(req:Request,res:Response)=>{
         const list = await getList();
         return response.handleSuccess(res,list,"Data fetched successfully");
     }catch(err:any){
-        console.log("Error in getting crpyto list currency",err);
+        console.log("Error in getting crpyto list currency"+err);
         return response.handleError(res,err);
     }
 }
@@ -18,15 +18,19 @@ export const cryptoList = async(req:Request,res:Response)=>{
 export const currenyForCrypto = async(req:Request,res:Response)=>{
     try{
         const { error, value } = validateObject(req.query);
-        if(value){
+        if (error) {
+            return response.handleError(res, error?.details[0]?.message);
+          }
+        
+          if (value && Object?.keys(value)?.length > 0) {
             const data = await convert(value);
-            return response.handleSuccess(res,data,"Data fetched successfully");
-        }else if(error){
-            return response.handleError(res,error);
-        }
+            return response.handleSuccess(res, data, "Data fetched successfully");
+          } else {
+            return response.handleError(res, "Invalid query parameters");
+          }
         
     }catch(err:any){
-        console.log("Error in getting currency for crpyto",err);
+        console.log("Error in getting currency for crpyto"+err);
         return response.handleError(res,err);
     }
 }

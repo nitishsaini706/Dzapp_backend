@@ -16,9 +16,10 @@ export function handleSuccess(res: Response, data?: any, message?: string): void
 }
 
 export function handleError(res:Response,error?:any):void{
+  
     const response : SuccessResponse = {
         success:false,
-        message:error ||"Aborting Request" ,
+        message:error.message ||"Aborting Request" ,
     }
 
     res.status(500).json(response);

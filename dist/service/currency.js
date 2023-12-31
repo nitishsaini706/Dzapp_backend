@@ -24,7 +24,7 @@ const getList = () => __awaiter(void 0, void 0, void 0, function* () {
         return data;
     }
     catch (err) {
-        console.log("service for current list", err);
+        console.log("service for current list" + err);
         throw err;
     }
 });

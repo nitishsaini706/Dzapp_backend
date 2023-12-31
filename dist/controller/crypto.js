@@ -42,24 +42,28 @@ const cryptoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         return response.handleSuccess(res, list, "Data fetched successfully");
     }
     catch (err) {
-        console.log("Error in getting crpyto list currency", err);
+        console.log("Error in getting crpyto list currency" + err);
         return response.handleError(res, err);
     }
 });
 exports.cryptoList = cryptoList;
 const currenyForCrypto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     try {
         const { error, value } = (0, converterObject_1.validateObject)(req.query);
-        if (value) {
+        if (error) {
+            return response.handleError(res, (_a = error === null || error === void 0 ? void 0 : error.details[0]) === null || _a === void 0 ? void 0 : _a.message);
+        }
+        if (value && ((_b = Object === null || Object === void 0 ? void 0 : Object.keys(value)) === null || _b === void 0 ? void 0 : _b.length) > 0) {
             const data = yield (0, crypto_1.convert)(value);
             return response.handleSuccess(res, data, "Data fetched successfully");
         }
-        else if (error) {
-            return response.handleError(res, error);
+        else {
+            return response.handleError(res, "Invalid query parameters");
         }
     }
     catch (err) {
-        console.log("Error in getting currency for crpyto", err);
+        console.log("Error in getting currency for crpyto" + err);
         return response.handleError(res, err);
     }
 });

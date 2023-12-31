@@ -24,22 +24,28 @@ const getList = () => __awaiter(void 0, void 0, void 0, function* () {
         return data;
     }
     catch (err) {
-        console.log("service for current list", err);
+        console.log("service for current list" + err);
         throw err;
     }
 });
 exports.getList = getList;
 const convert = (input) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { currency, crypto, amount } = input;
+        const { crypto, amount } = input;
+        const currency = input.currency.toLowerCase();
         const res = yield axios_1.default.get(url + `simple/price?ids=${crypto}&vs_currencies=${currency}`);
-        const response = res.data;
-        const data = response[crypto][currency];
-        const result = Math.round(data * parseInt(amount));
-        return result;
+        if (Object.keys(res.data).length > 0) {
+            const response = res === null || res === void 0 ? void 0 : res.data;
+            const data = response[crypto][currency];
+            const result = Math.round(data * parseInt(amount));
+            return result;
+        }
+        else {
+            return "No Data Found";
+        }
     }
     catch (err) {
-        console.log("Error while getting currency for crypto service", err);
+        console.log("Error while getting currency for crypto service" + err);
         throw err;
     }
 });

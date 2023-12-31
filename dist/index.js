@@ -6,8 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const index_1 = __importDefault(require("./routes/index"));
 require("dotenv/config");
+const cors_1 = __importDefault(require("cors"));
 const server = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
+server.use((0, cors_1.default)());
 // Use middleware to apply routes
 server.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
