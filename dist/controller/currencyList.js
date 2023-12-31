@@ -38,12 +38,12 @@ const currency_1 = require("../service/currency");
 const response = __importStar(require("../utils/responseHandler"));
 const currenyList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (redis_1.client.get('currencylist')) {
-            let list = JSON.parse(redis_1.client.get("currencylist"));
-            return response.handleSuccess(res, list, "Data fetched from Redis");
+        let cache = yield (0, redis_1.useRedis)('currencylist');
+        if (cache != "") {
+            return response.handleSuccess(res, cache, "Data fetched from Redis");
         }
         const list = yield (0, currency_1.getList)();
-        yield redis_1.client.add('currencylist', list);
+        yield (0, redis_1.useRedis)('currencylist', list);
         return response.handleSuccess(res, list, "Data fetched successfully");
     }
     catch (err) {

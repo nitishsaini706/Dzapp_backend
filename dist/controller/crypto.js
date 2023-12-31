@@ -39,12 +39,12 @@ const response = __importStar(require("../utils/responseHandler"));
 const redis_1 = require("../utils/redis");
 const cryptoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (redis_1.client.get('cryptolist')) {
-            let list = JSON.parse(redis_1.client.get("cryptolist"));
-            return response.handleSuccess(res, list, "Data fetched from Redis");
+        let cache = yield (0, redis_1.useRedis)('cryptolist');
+        if (cache != "") {
+            return response.handleSuccess(res, cache, "Data fetched from Redis");
         }
         const list = yield (0, crypto_1.getList)();
-        yield redis_1.client.add('cryptolist', list);
+        yield (0, redis_1.useRedis)('cryptolist', list);
         return response.handleSuccess(res, list, "Data fetched successfully");
     }
     catch (err) {

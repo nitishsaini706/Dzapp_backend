@@ -9,15 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useRedis = exports.client = void 0;
+exports.useRedis = void 0;
 const redis_1 = require("redis");
-exports.client = ""; // Declare client outside the function
-const useRedis = () => __awaiter(void 0, void 0, void 0, function* () {
+let client = "";
+const useRedis = (input, value) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (!exports.client) {
-            exports.client = yield (0, redis_1.createClient)().connect();
+        if (client == "") {
+            client = yield (0, redis_1.createClient)().connect();
         }
-        return exports.client;
+        if (client.get(input)) {
+            return JSON.parse(client.get(input));
+        }
+        else {
+            client.add(input, value);
+        }
+        return "";
     }
     catch (err) {
         console.log("Error while initializing Redis", err);

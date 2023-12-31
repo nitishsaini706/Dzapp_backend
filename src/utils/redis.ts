@@ -1,14 +1,18 @@
 import { createClient } from 'redis';
 
-export let client:any=""; // Declare client outside the function
 
-export const useRedis = async () => {
+let client:any="";
+export const useRedis = async (input:string,value?:any) => {
     try {
-        if (!client) {
+        if (client == "") {
             client = await createClient().connect();
         }
-
-        return client;
+        if(client.get(input)){
+            return JSON.parse(client.get(input));
+        }else{
+            client.add(input,value);
+        }
+        return "";
     } catch (err) {
         console.log("Error while initializing Redis", err);
         throw err;
