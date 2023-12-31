@@ -19,7 +19,7 @@ require('dotenv').config();
 const url = (_a = process.env.CURRENCY_URL) !== null && _a !== void 0 ? _a : "https://currencyapi.net/api/v1/currencies";
 const getList = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield axios_1.default.get(url + `?key=${process.env.CURRENCY_API_KEY}&output=json`);
+        const response = yield axios_1.default.get(url + `?key=3sUh6nbDEt6csCvdPbCEqlbUpqmoBJwYyYov&output=json`);
         const data = response.data;
         return data;
     }
