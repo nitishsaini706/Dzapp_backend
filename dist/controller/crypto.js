@@ -36,15 +36,14 @@ exports.currenyForCrypto = exports.cryptoList = void 0;
 const converterObject_1 = require("../paramsValidator/converterObject");
 const crypto_1 = require("../service/crypto");
 const response = __importStar(require("../utils/responseHandler"));
-const redis_1 = require("../utils/redis");
 const cryptoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let cache = yield (0, redis_1.useRedis)('cryptolist');
-        if (cache != "") {
-            return response.handleSuccess(res, cache, "Data fetched from Redis");
-        }
+        // let cache = await useRedis('cryptolist');
+        // if(cache != ""){
+        //     return response.handleSuccess(res,cache,"Data fetched from Redis");
+        // }
         const list = yield (0, crypto_1.getList)();
-        yield (0, redis_1.useRedis)('cryptolist', list);
+        // await useRedis('cryptolist',list);
         return response.handleSuccess(res, list, "Data fetched successfully");
     }
     catch (err) {

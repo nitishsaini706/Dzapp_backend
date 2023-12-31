@@ -1,33 +1,22 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.useRedis = void 0;
-const redis_1 = require("redis");
-let client = "";
-const useRedis = (input, value) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        if (client == "") {
-            client = yield (0, redis_1.createClient)().connect();
-        }
-        if (client.get(input)) {
-            return JSON.parse(client.get(input));
-        }
-        else {
-            client.add(input, value);
-        }
-        return "";
-    }
-    catch (err) {
-        console.log("Error while initializing Redis", err);
-        throw err;
-    }
-});
-exports.useRedis = useRedis;
+// import { createClient } from '@vercel/kv';
+// let client: any = "";
+// export const useRedis = async (input: string, value?: any) => {
+//     try {
+//         if (client === "") {
+//             client = createClient({
+//                 url: "redis://******:******@poetic-ox-32291.kv.vercel-storage.com:32291",
+//             });
+//         }
+//         if (await client.get(input)) {
+//             const result = await client.get(input);
+//             return JSON.parse(result);
+//         } else if (input && value) {
+//             await client.set(input, JSON.stringify(value));
+//         }
+//         return "";
+//     } catch (err) {
+//         console.log("Error while initializing Redis", err);
+//         throw err;
+//     }
+// };
